@@ -111,7 +111,7 @@ tbody tr:hover {
 #card-avatar {
     width: 150px;
     height: 220px;
-    object-fit: cover;
+    object-fit: contain;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
 }
