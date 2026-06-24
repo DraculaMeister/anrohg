@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const REDIRECT_URI = encodeURIComponent(window.location.origin + '/menu.html');
             
-            const OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&scope=identify+guilds+guilds.members.read`;
+            const OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=1519360762941018223&response_type=code&redirect_uri=https%3A%2F%2Fanrohg.vercel.app%2Fmenu.html&scope=identify+guilds+guilds.members.read`;
 
             window.location.href = OAUTH_URL;
         });
