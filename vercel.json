@@ -8,8 +8,12 @@
     ],
     "routes": [
         {
-            "src": "/(.*)",
-            "dest": "server.js"
+        "src": "/(style.css|script.js|favicon.png)",
+        "dest": "/$1"
+        },
+        {
+        "src": "/(.*)",
+        "dest": "server.js"
         }
     ]
 }
