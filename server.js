@@ -29,6 +29,10 @@ app.get('/documents.html', (req, res, next) => {
 
 app.use(express.static(path.join(__dirname)));
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'))
+});
+
 app.get('/api/auth', async (req, res) => {
     const { code } = req.query;
 
