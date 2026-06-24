@@ -16,10 +16,16 @@ app.use(session({
     }
 }));
 
-app.get('/menu.html', (req, res, next) => {
-    if (req.query.code) return next();
-    if (req.session?.authorized) return next();
-    res.redirect('/index.html')
+app.get('/menu.html', async (req, res) => {
+    if (req.query.code) {
+        return res.redirect(`/api/auth?code=${req.query.code}`);
+    }
+    
+    if (req.session && req.session.authorized) {
+        return res.sendFile(path.join(__dirname, 'menu.html'));
+    }
+    
+    res.redirect('/');
 });
 
 app.get('/documents.html', (req, res, next) => {
@@ -97,6 +103,10 @@ app.get('/api/auth', async (req, res) => {
 
         req.session.authorized = true;
         req.session.username = robloxName;
+
+        if (code) {
+            return res.redirect('/menu.html');
+        }
 
         res.json({
             authorized: true,
