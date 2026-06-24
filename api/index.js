@@ -22,7 +22,7 @@ app.get('/menu.html', async (req, res) => {
     }
     
     if (req.session && req.session.authorized) {
-        return res.sendFile(path.join(__dirname, '..', 'menu.html'))
+        return res.sendFile(path.join(__dirname, '../', 'menu.html'))
     }
     
     res.redirect('/');
@@ -30,15 +30,15 @@ app.get('/menu.html', async (req, res) => {
 
 app.get('/documents.html', (req, res) => {
     if (req.session && req.session.authorized) {
-        return res.sendFile(path.join(__dirname, '..', 'documents.html'));
+        return res.sendFile(path.join(__dirname, '../', 'documents.html'));
     }
     res.redirect('/');
 });
 
-app.use(express.static(path.join(__dirname, '..')));
+app.use(express.static(path.join(__dirname, '../')));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'index.html'));
+    res.sendFile(path.join(__dirname, '../', 'index.html'));
 });
 
 app.get('/api/auth', async (req, res) => {
