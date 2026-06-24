@@ -11,7 +11,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false,
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 30 * 24 * 60 * 60 * 1000
     }
 }));
@@ -22,21 +22,23 @@ app.get('/menu.html', async (req, res) => {
     }
     
     if (req.session && req.session.authorized) {
-        return res.sendFile(path.join(__dirname, 'menu.html'));
+        return res.sendFile(path.join(__dirname, '..', 'menu.html'))
     }
     
     res.redirect('/');
 });
 
-app.get('/documents.html', (req, res, next) => {
-    if (req.session?.authorized) return next();
-    res.redirect('/index.html')
+app.get('/documents.html', (req, res) => {
+    if (req.session && req.session.authorized) {
+        return res.sendFile(path.join(__dirname, '..', 'documents.html'));
+    }
+    res.redirect('/');
 });
 
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, '..')));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'))
+    res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 app.get('/api/auth', async (req, res) => {
@@ -119,8 +121,10 @@ app.get('/api/auth', async (req, res) => {
     } 
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running at http://127.0.0.1:${PORT}`)
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+         console.log(`Server running at http://127.0.0.1:${PORT}`)
+    });
+}
 
 module.exports = app;
