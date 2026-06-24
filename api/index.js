@@ -16,9 +16,13 @@ const PORT = 3000;
 const checkAuth = (req) => {
     try {
         const token = req.cookies.auth_token;
-        if (!token) return null;
+        if (!token) {
+            console.log("DEBUG: Kein Token gefunden.");
+            return null;
+        }
         return jwt.verify(token, JWT_SECRET);
     } catch (e) {
+        console.log("DEBUG: Token-Verifizierung fehlgeschlagen: ", e.message);
         return null;
     }
 };
