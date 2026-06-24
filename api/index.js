@@ -89,7 +89,7 @@ app.get('/api/auth', async (req, res) => {
         const token = jwt.sign({ username: robloxName }, JWT_SECRET, { expiresIn: '30d' });
         res.cookie('auth_token', token, { 
             httpOnly: true, 
-            secure: false,
+            secure: true,
             sameSite: 'lax',
             path: '/',
             maxAge: 30 * 24 * 60 * 60 * 1000 

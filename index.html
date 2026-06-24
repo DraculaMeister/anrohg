@@ -36,6 +36,10 @@
             </svg>
             Login with Discord
         </button>
+
+        <a id="menuLinkBtn" href="/menu.html" style="display: none; position: absolute; top: 20px; left: 20px; text-decoration: none; padding: 10px 20px; font-family: 'Special Elite', sans-serif; border: 2px solid #660000; color: #660000; background-color: #f4edd9; box-shadow: 3px 3px 0px #660000; font-weight: bold; cursor: pointer; transition: 0.2s;">
+        Menu
+    </a>
     </div>
 
     <h1>ANRO Honor Guard</h1>
@@ -90,6 +94,15 @@
         window.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get('code');
+            
+            const loginBtn = document.getElementById('discordLoginBtn');
+            const menuBtn = document.getElementById('menuLinkBtn');
+
+            if (loginBtn) {
+                loginBtn.addEventListener('click', () => {
+                    window.location.href = "DEIN_DISCORD_OAUTH_LINK_HIER";
+                });
+            }
 
             if (code) {
                 try {
@@ -98,6 +111,7 @@
                         window.location.href = '/menu.html';
                     } else {
                         alert("Login fehlgeschlagen.");
+                        window.location.href = '/';
                     }
                 } catch (e) {
                     console.error("Login Error:", e);
@@ -107,19 +121,20 @@
                 try {
                     const res = await fetch('/api/auth');
                     const data = await res.json();
+                    
                     if (data.authorized) {
                         document.getElementById('topCardUsername').textContent = data.username;
                         document.getElementById('userInfoCard').style.display = 'flex';
-                        const loginBtn = document.getElementById('discordLoginBtn');
-                        if (loginBtn) {
-                            loginBtn.style.display = 'none'; // Hier verschwindet er!
-                        }
+
+                        if (loginBtn) loginBtn.style.display = 'none';
+                        if (menuBtn) menuBtn.style.display = 'inline-block';
                     }
                 } catch (e) {
                     console.log("Guest Mode.");
                 }
             }
         });
-    </script>
+</script>
+
 </body>
 </html>
