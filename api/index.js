@@ -91,10 +91,11 @@ app.get('/api/auth', async (req, res) => {
             httpOnly: true, 
             secure: false,
             sameSite: 'lax',
+            path: '/',
             maxAge: 30 * 24 * 60 * 60 * 1000 
         });
 
-        return res.redirect('/menu.html');
+        return res.status(200).json({ status: "success", message: "Login successful" });
 
     } catch (error) {
         res.status(500).json({ authorized: false, error: 'Server Error.' });
