@@ -110,6 +110,10 @@
                     if (data.authorized) {
                         document.getElementById('topCardUsername').textContent = data.username;
                         document.getElementById('userInfoCard').style.display = 'flex';
+                        const loginBtn = document.getElementById('discordLoginBtn');
+                        if (loginBtn) {
+                            loginBtn.style.display = 'none'; // Hier verschwindet er!
+                        }
                     }
                 } catch (e) {
                     console.log("Guest Mode.");
