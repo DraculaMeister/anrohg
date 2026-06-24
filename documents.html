@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honor Guard - Documents</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="userInfoCard" class="user-info-card" style="display: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <circle cx="12" cy="7" r="4.5" />
+            <path d="M4 21a8 8 0 0 1 16 0" />
+        </svg>
+        <span id="cardUsername">Guardsman</span>
+    </div>
+
+    <div class="main-container">
+
+        <div class="panel-header">
+            <div class="header-with-back">
+                <a href="menu.html" class="btn-back" style="text-decoration: none;">← Menu</a>
+                <div>
+                    <h2>🗁 Documents</h2>
+                    <p>Colletion of HG documents</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="docs-layout">
+            
+            <div class="embed-side">
+                <h3>Handbook of the Guardsmen</h3>
+                <div class="viewer-frame-container">
+                    <iframe id="doc-frame" src="https://docs.google.com/document/d/e/2PACX-1vTB0aRnOfba5pKGTfmlC5NXFnKHi-vx6n3mFUzYrCR_bpc-S-hC6VlGiM84RpHca9ihtFJqZVSHsaqQ/pub?embedded=true" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="links-side">
+                <h3>Other Documents</h3>
+                <div class="links-container">
+                    <a href="https://docs.google.com/document/d/134CxTN1JlWfsJ_TrP_wks0AUqM7bpVQc3_m0oFeT6qo/edit?usp=sharing" class="link-btn" target="_blank">General Reforms</a>
+                    <a href="https://docs.google.com/document/d/1rWfW6XKpOy9WbBvlt_oCCQj_4Oj-_A-nM8LRCiE9i7E/edit?usp=sharing" class="link-btn" target="_blank">Activity Reforms</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const res = await fetch('/api/auth');
+                const data = await res.json();
+                if (data.authorized) {
+                    document.getElementById('cardUsername').textContent = data.username;
+                    document.getElementById('userInfoCard').style.display = 'flex';
+                }
+            } catch (e) {
+                console.error("Info card failed to load", e);
+            }
+        })
+    </script>
+
+</body>
+
+</html>

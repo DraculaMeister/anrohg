@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANRO Honor Guard - Menu</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="userInfoCard" class="user-info-card" style="display: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <circle cx="12" cy="7" r="4.5" />
+            <path d="M4 21a8 8 0 0 1 16 0" />
+        </svg>
+        <span id="cardUsername">Guardsman</span>
+    </div>
+
+    <div style="text-align:center; margin-top: 80px;">
+        <h1 id="menuTitle">Verifying...</h1>
+        <hr style="width: 50%; border-top: 2px dashed #660000; margin: 20px auto;">
+
+        <div id="menuContent" style="display: none; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #660000;">Welcome to the Honor Guard Menu</h2>
+            <p>Please select an option below.</p>
+            
+            <div class="main-container">
+                <div class="panel-header">
+                    <h2>
+                        Honor Guard Dashboard
+                    </h2>
+                </div>
+
+                <div class="menu-grid">
+                    <a href="index.html" class="menu-card-btn"">
+                        <span class="card-icon">☰</span>
+                        <span class="card-title">Registry</span>
+                        <span class="cards-desc">View all HG members and their cards.</span>
+                    </a>
+
+                    <a href="documents.html" class="menu-card-btn">
+                        <span class="card-icon">🗁</span>
+                        <span class="card-title">Documents</span>
+                        <span class="cards-desc">A collection of all HG documents.</span>
+                    </a>
+                </div>
+            </div>
+
+         </div>
+        
+         <p id="errorMsg" style="color: #660000; font-size: 18px; font-weight: bold; margin-top: 20px;"></p>
+         <a id="backBtn" href="index.html" style="display: none; color: #000000; font-family: 'Special Elite'; text-decoration: underline; margin-top: 20px;">Back to Registry</a>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+
+            try {
+                const fetchUrl = code ? `/api/auth?code=${code}` : '/api/auth';
+                const res = await fetch(fetchUrl);
+                const data = await res.json();
+
+                if (data.authorized) {
+                    document.getElementById('menuTitle').textContent = `Welcome, ${data.username}!`;
+                    document.getElementById('menuContent').style.display = 'block';
+
+                    document.getElementById('cardUsername').textContent = data.username;
+                    document.getElementById('userInfoCard').style.display = 'flex';
+
+                    if(code) {
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }        
+                } else {
+                    document.getElementById('menuTitle').textContent = "Access Denied";
+                    document.getElementById('errorMsg').textContent = data.error || "You do not have permission to access this menu.";
+                    document.getElementById('backBtn').style.display = 'inline-block';
+                }
+            } catch (err) {
+                document.getElementById('menuTitle').textContent = "Error";
+                document.getElementById('errorMsg').textContent = "Could not verify.";
+                document.getElementById('backBtn').style.display = 'inline-block';
+            }
+        });
+    </script>
+</body>
+</html>
