@@ -88,27 +88,34 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const res = await fetch('/api/auth');
-                const data = await res.json();
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
 
-                if (data.authorized) {
-                    document.getElementById('topCardUsername').textContent = data.username;
-                    document.getElementById('userInfoCard').style.display = 'flex';
-
-                    const loginBtn = document.getElementById('discordLoginBtn');
-                    if (loginBtn) {
-                        loginBtn.outerHTML = `
-                            <a href="menu.html" style="text-decoration: none; display: inline-block; padding: 10px 20px; font-family: 'Special Elite'; border: 2px solid #660000; color: #660000; background: #f4edd9; box-shadow: 3px 3px 0px #660000; font-weight: bold;">
-                                Menu
-                            </a>
-                        `;
+            if (code) {
+                try {
+                    const res = await fetch(`/api/auth?code=${code}`);
+                    if (res.ok) {
+                        window.location.href = '/menu.html';
+                    } else {
+                        alert("Login fehlgeschlagen.");
                     }
+                } catch (e) {
+                    console.error("Login Error:", e);
                 }
-            } catch (e) {
-                console.log("Guest Mode: Not logged in.");
+            } 
+            else {
+                try {
+                    const res = await fetch('/api/auth');
+                    const data = await res.json();
+                    if (data.authorized) {
+                        document.getElementById('topCardUsername').textContent = data.username;
+                        document.getElementById('userInfoCard').style.display = 'flex';
+                    }
+                } catch (e) {
+                    console.log("Guest Mode.");
+                }
             }
-        })
+        });
     </script>
 </body>
 </html>
