@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
         const userId = userData.data[0].id;
 
-        const avatarRes = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-bust?userIds=${userId}&size=420x420&format=Png&isCircular=false`);
+        const avatarRes = await fetch(`https://thumbnails.roblox.com/v1/users/avatar?userIds=${userId}&size=420x420&format=Png&isCircular=false`);
         const avatarData = await avatarRes.json();
 
         if (!avatarData.data || avatarData.data.length === 0) {
